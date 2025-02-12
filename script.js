@@ -1,27 +1,23 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Fade-in effect for sections on scroll
-    const fadeInElements = document.querySelectorAll(".fade-in");
-    const slideUpElements = document.querySelectorAll(".slide-up");
+// COUNTDOWN TIMER
+const eventDate = new Date("Feb 22, 2025 00:00:00").getTime();
+const timer = setInterval(function () {
+    let now = new Date().getTime();
+    let timeLeft = eventDate - now;
+    
+    let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    
+    document.getElementById("timer").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}, 1000);
 
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("visible");
-            }
-        });
-    }, { threshold: 0.3 });
+// EVENT DETAILS POPUP
+function showEventDetails(eventId) {
+    document.getElementById("event-title").innerText = eventId;
+    document.getElementById("event-details").classList.add("active");
+}
 
-    fadeInElements.forEach(element => observer.observe(element));
-    slideUpElements.forEach(element => observer.observe(element));
-
-    // Smooth scrolling for navigation links
-    document.querySelectorAll("nav ul li a").forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute("href").substring(1);
-            document.getElementById(targetId).scrollIntoView({
-                behavior: "smooth"
-            });
-        });
-    });
-});
+function closeEventDetails() {
+    document.getElementById("event-details").classList.remove("active");
+}
